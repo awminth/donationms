@@ -45,7 +45,7 @@ if($action == 'show'){
     if ($result->num_rows > 0) {
         $out.='
         <table class="table table-hover table-bordered mb-0">
-        <thead>
+        <thead class="bg-success white">
         <tr> 
             <th width="7%;">No</th>
             <th>Description</th>
