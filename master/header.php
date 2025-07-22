@@ -149,14 +149,14 @@ if(isset($_SESSION['donationms_userid'])){
                     <a href="#"><i class="la la-dollar"></i><span class="menu-title"
                             data-i18n="Components">အလှူငွေဖြတ်ပိုင်း</span></a>
                     <ul class="menu-content">
-                        <li class="<?=(curlink == 'category.php')?'active':''?>">
-                            <a class="menu-item " href="<?=roothtml.'category/category.php'?>">
-                                <i></i><span data-i18n="Alerts">Manage Category</span>
+                        <li class="<?=(curlink == 'donation.php')?'active':''?>">
+                            <a class="menu-item " href="<?=roothtml.'donation/donation.php'?>">
+                                <i></i><span data-i18n="Alerts">အလှူငွေဖြတ်ပိုင်းဖြတ်ရန်</span>
                             </a>
                         </li>
                         <li class="<?=(curlink == 'storehome.php' || curlink == 'store.php')?'active':''?>">
                             <a class="menu-item " href="<?=roothtml.'category/storehome.php'?>">
-                                <i></i><span data-i18n="Alerts">ဦးခန္တီဘုရားရှိစာရင်းများ</span>
+                                <i></i><span data-i18n="Alerts">ဖြတ်ပိုင်းများကြည့်ရန်</span>
                             </a>
                         </li>
                     </ul>
