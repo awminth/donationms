@@ -51,7 +51,6 @@ if($action == 'showcard'){
                         <div class="media d-flex">
                             <div class="media-body text-white text-right">
                                 <h3 class="text-white text-center">ပစ္စည်းစာရင်းမရှိသေးပါ</h3>
-
                             </div>
                         </div>
                     </div>
@@ -64,31 +63,85 @@ if($action == 'showcard'){
 
 }
 
-if($action == 'addcart'){ 
+if($action == 'addcard'){ 
     $aid = $_POST['aid'];
     $name = $_POST['name']; 
     $price = $_POST['price'];
-    $chk = "select * from tblsale_temp where ItemID={$aid} and UserID={$userid}";
-    $res_chk = mysqli_query($con,$chk);
-    if(mysqli_num_rows($res_chk) > 0){
-        $sql = "UPDATE tblsaletemp SET ";
+    $sql = "INSERT INTO tblsaletemp (ItemID,ItemName,Price,UserID) VALUES (?,?,?,?)";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("isdi", $aid, $name, $price, $userid);
+    if($stmt->execute()){
+        echo 1;
     }else{
-        $sql_in = 'insert into tblsale_temp (RemainID,CodeNo,ItemName,Qty,SellPrice,UserID) 
-        values ("'.$aid.'","'.$codeno.'","'.$itemname.'",1,"'.$price.'","'.$userid.'")';
-        if(mysqli_query($con,$sql_in)){
-            echo 1;
-        }else{
-            echo 0;
-        }
-    }    
+        echo 0;
+    }
 }
 
-if($action == 'save'){
-    $categoryname = $_POST["categoryname"];
-    $sql = "insert into tblcategory (Name) 
-    values (?)";
+if($action == 'showtable'){
+    $no=0;  
+    $totalamt = 0;  
+    $sql = "select * from tblsaletemp order by AID desc";
+        
+    $result=mysqli_query($con,$sql) or die("SQL a Query");
+    $out="";
+    if(mysqli_num_rows($result) > 0){
+        while($row = mysqli_fetch_array($result)){
+            $no=$no+1;
+            $totalamt += $row["Price"];
+            $out.="<tr>
+                <td>{$no}</td>
+                <td>{$row["ItemName"]}</td>
+                <td>{$row["Price"]}</td>
+                <td class='text-center'>
+                    <a href='#' id='btndeletetemp'
+                        data-aid='{$row['AID']}'>
+                        <i class='la la-trash text-danger'></i></a>
+                </td>
+            </tr>";
+        }
+        $out .= "
+            <tr>
+                <td colspan='2' class='text-center'>စုစုပေါင်း</td>
+                <td colspan='2'>".number_format($totalamt)."</td>
+            </tr>
+        ";
+        echo $out; 
+        
+    }
+    else{
+        $out.='
+            <tr>
+                <td colspan="4" class="text-center">စာရင်းမရှိသေးပါ။</td>
+            </tr>
+        ';
+        echo $out;
+    }
+
+}
+
+if($action == 'deletetemp'){
+    $aid = $_POST["aid"];
+    $sql = "delete from tblsaletemp where AID=?";
     $stmt = $con->prepare($sql);
-    $stmt -> bind_param('s',$categoryname);
+    $stmt->bind_param("i", $aid);
+    if($stmt->execute()){
+        echo 1;
+    }else{
+        echo 0;
+    }   
+}
+
+if($action == 'donate'){
+    $donatorname = $_POST["donatorname"];
+    $description = $_POST["description"];
+    $address = $_POST["address"];
+    $donationamount = $_POST["donationamount"];
+    $donationdate = $_POST["donationdate"];
+    $vno = date("YmdHis");
+    $sql = "insert into sale (ItemID,ItemName,Price,VNO,Date,UserID) select ItemID,ItemName,Price,
+    ?,?,UserID where UserID=?";
+    $stmt = $con->prepare($sql);
+    $stmt -> bind_param('ssi',$vno,$donationdate,$userid);
     if($stmt->execute()){
         save_log($_SESSION["donationms_username"]." သည် Category Name (".$categoryname.") အား အသစ်သွင်းသွားသည်။");
         echo 1;

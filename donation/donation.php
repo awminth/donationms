@@ -50,6 +50,82 @@
                     <div id="recent-transactions" class="col-sm-6">
                         <div class="card">
                             <div class="card-content p-2">
+                                <table class="table table-hover table-bordered mb-0">
+                                    <thead class="bg-success white">
+                                        <tr>
+                                            <th width="7%;">No</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th width="10%;" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="showtable">
+                                    </tbody>
+
+                                </table>
+                                <br><br>
+                                <form id="frmdonate" method="POST">
+                                    <input type="hidden" name="action" value="donate" />
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control" for="userinput1">အလှူရှင်အမည်</label>
+                                            <div class="col-md-9 mx-auto">
+                                                <input type="text" class="form-control border-primary"
+                                                    placeholder="အလှူရှင်အမည်" name="donatorname">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control"
+                                                for="projectinput9">အကြောင်းအရာ</label>
+                                            <div class="col-md-9 mx-auto">
+                                                <textarea id="projectinput9" rows="5"
+                                                    class="form-control border-primary" name="description"
+                                                    placeholder="အကြောင်းအရာ"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control" for="userinput1">နေရပ်လိပ်စာ</label>
+                                            <div class="col-md-9 mx-auto">
+                                                <input type="text" class="form-control border-primary"
+                                                    placeholder="နေရပ်လိပ်စာ" name="address">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control">အလှူငွေ</label>
+                                            <div class="col-md-9 mx-auto">
+                                                <input type="number" class="form-control border-primary"
+                                                    placeholder="အလှူငွေ" name="donationamount">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control" for="timesheetinput3">ရက်စွဲ</label>
+                                            <div class="col-md-9 mx-auto">
+                                                <div class="position-relative has-icon-left">
+                                                    <input type="date" id="timesheetinput3"
+                                                        class="form-control border-primary" name="donationdate"
+                                                        value="<?= date("Y-m-d")?>">
+                                                    <div class="form-control-position">
+                                                        <i class="ft-message-square"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-outline-primary"><i
+                                                class="la la-save"></i>လှူဒါန်းမည်</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -164,12 +240,82 @@ $(document).ready(function() {
                 price: price,
             },
             success: function(data) {
+                load_table();
+            }
+        });
+    });
+
+    function load_table() {
+        $.ajax({
+            type: "post",
+            url: donation_url,
+            data: {
+                action: 'showtable'
+            },
+            success: function(data) {
+                $("#showtable").html(data);
+            }
+        });
+    }
+    load_table();
+
+    $(document).on("click", "#btndeletetemp", function(e) {
+        e.preventDefault();
+        var aid = $(this).data("aid");
+        $.ajax({
+            type: "POST",
+            url: donation_url,
+            data: {
+                action: 'deletetemp',
+                aid: aid
+            },
+            success: function(data) {
                 if (data == 1) {
-                    load_session();
-                } else if (data == 2) {
-                    swal("Warning", "Item qty is not enough.", "warning");
+                    load_table();
                 } else {
-                    swal("Error", "error", "error");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Delete data is failed.',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
+                }
+            }
+        });
+    });
+
+    $("#frmdonate").on("submit", function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $("#btnnewmodal").modal("hide");
+        $.ajax({
+            type: "post",
+            url: donation_url,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data == 1) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Save data is successful.',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
+                    load_page();
+                } else {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'Save data is error.',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        toast: true
+                    });
                 }
             }
         });
