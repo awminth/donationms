@@ -1,7 +1,6 @@
 <?php
     include('../config.php');
     include(root.'master/header.php');
-    $categoryname = $_SESSION["categoryName"];
 ?>
 
 <!-- BEGIN: Content-->
@@ -9,14 +8,18 @@
     <div class="content-overlay"></div>
     <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new d-flex align-items-center">
-                <a href="<?=roothtml.'category/storehome.php'?>" type="button" class="btn btn-sm btn-primary"><i
-                        class="ft-arrow-left"></i>&nbsp;
-                    Back
-                </a>
-                <div style="width: 1px; height: 24px; background-color: #ccc; margin: 0 10px;"></div>
-                <h3><?= $categoryname?>နှင့်ဆိုင်သော
-                    ပစ္စည်းများစာရင်းသွင်းရန်</h3>
+            <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">အလှူပစ္စည်းစာရင်းများ</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?=roothtml.'home/home.php'?>">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">အလှူပစ္စည်းစာရင်းများ
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             </div>
             <div class="content-header-right col-md-6 col-12">
                 <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
@@ -28,7 +31,7 @@
                         <button type="button" id="btnnew" class="dropdown-item text-info"><span
                                 class="la la-plus-circle font-medium-3 icon-left"></span>New</button>
                         <div class="dropdown-divider"></div>
-                        <form method="POST" action="store_action.php">
+                        <form method="POST" action="item_action.php">
                             <input type="hidden" name="hid">
                             <input type="hidden" name="ser">
                             <button type="submit" name="action" value="excel" class="dropdown-item text-danger"><span
@@ -92,7 +95,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="modal-title text-text-bold-600" id="myModalLabel25">ပစ္စည်းစာရင်းအသစ်သွင်းရန်</label>
+                <label class="modal-title text-text-bold-600" id="myModalLabel25">အလှူပစ္စည်းစာရင်းသွင်းရန်</label>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,21 +108,17 @@
                         <input type="text" required class="form-control" name="name" placeholder="အမျိုးအမည်ရေးရန်">
                     </div>
                     <div class="form-group">
-                        <label for="usr">ရေတွက်ပုံ</label>
-                        <select required class=" form-control select2" name="rtp" id="rtp">
-                            <option value="">ရေတွက်ပုံရွေးရန်</option>
-                            <?php for($i=0;$i<count($cnt_format);$i++){ ?>
-                            <option value="<?=$cnt_format[$i]?>"><?=$cnt_format[$i]?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">အရေအတွက်</label>
-                        <input type="number" required class="form-control" name="qty" placeholder="အရေအတွက်သတ်မှတ်ရန်">
+                        <label for="usr">ဈေးနှုန်း</label>
+                        <input type="number" required class="form-control" name="price"
+                            placeholder="ဈေးနှုန်းသတ်မှတ်ရန်">
                     </div>
                     <div class="form-group">
                         <label for="usr">မှတ်ချက်</label>
                         <input type="text" class="form-control" name="rmk" placeholder="မှတ်ချက်ရေးရန်">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">ရက်စွဲ</label>
+                        <input type="date" class="form-control" name="dt" placeholder="" value="<?= date("Y-m-d")?>">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -137,7 +136,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="modal-title text-text-bold-600" id="myModalLabel25">ပစ္စည်းစာရင်း ပြင်ရန်</label>
+                <label class="modal-title text-text-bold-600" id="myModalLabel25">အလှူပစ္စည်းစာရင်းပြင်ရန်</label>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -151,21 +150,18 @@
                         <input type="text" required class="form-control" name="ename" placeholder="အမျိုးအမည်ရေးရန်">
                     </div>
                     <div class="form-group">
-                        <label for="usr">ရေတွက်ပုံ</label>
-                        <select required class=" form-control select2" name="ertp" id="ertp">
-                            <option value="">ရေတွက်ပုံရွေးရန်</option>
-                            <?php for($i=0;$i<count($cnt_format);$i++){ ?>
-                            <option value="<?=$cnt_format[$i]?>"><?=$cnt_format[$i]?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="usr">အရေအတွက်</label>
-                        <input type="number" required class="form-control" name="eqty" placeholder="အရေအတွက်သတ်မှတ်ရန်">
+                        <label for="usr">ဈေးနှုန်း</label>
+                        <input type="number" required class="form-control" name="eprice"
+                            placeholder="ဈေးနှုန်းသတ်မှတ်ရန်">
                     </div>
                     <div class="form-group">
                         <label for="usr">မှတ်ချက်</label>
                         <input type="text" class="form-control" name="ermk" placeholder="မှတ်ချက်ရေးရန်">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">ရက်စွဲ</label>
+                        <input type="date" class="form-control" name="edt" value="<?= date("Y-m-d")?>">
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -182,7 +178,7 @@
 ?>
 
 <script>
-var store_url = "<?php echo roothtml.'category/store_action.php'; ?>";
+var item_url = "<?php echo roothtml.'item/item_action.php'; ?>";
 
 $(document).ready(function() {
     function load_page(page) {
@@ -190,7 +186,7 @@ $(document).ready(function() {
         var search = $("[name='ser']").val();
         $.ajax({
             type: "post",
-            url: store_url,
+            url: item_url,
             data: {
                 action: 'show',
                 page_no: page,
@@ -231,7 +227,7 @@ $(document).ready(function() {
         $("#btnnewmodal").modal("hide");
         $.ajax({
             type: "post",
-            url: store_url,
+            url: item_url,
             data: formData,
             contentType: false,
             processData: false,
@@ -264,14 +260,12 @@ $(document).ready(function() {
         e.preventDefault();
         var aid = $(this).data("aid");
         var name = $(this).data("name");
-        var rtp = $(this).data("rtp");
-        var qty = $(this).data("qty");
+        var price = $(this).data("price");
         var rmk = $(this).data("rmk");
         $("[name='eaid']").val(aid);
         $("[name='ename']").val(name);
-        $("#ertp").val(rtp).trigger("change");
-        $("[name='eqty']").val(qty);
-        $("[name='ermk']").val(rmk); 
+        $("[name='eprice']").val(price);
+        $("[name='ermk']").val(rmk);
         $("#btneditmodal").modal("show");
     });
 
@@ -281,7 +275,7 @@ $(document).ready(function() {
         $("#btneditmodal").modal("hide");
         $.ajax({
             type: "post",
-            url: store_url,
+            url: item_url,
             data: formData,
             contentType: false,
             processData: false,
@@ -341,7 +335,7 @@ $(document).ready(function() {
             if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: store_url,
+                    url: item_url,
                     data: {
                         action: 'delete',
                         aid: aid,

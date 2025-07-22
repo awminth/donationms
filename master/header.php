@@ -145,27 +145,25 @@ if(isset($_SESSION['donationms_userid'])){
                     <a href="<?=roothtml.'home/home.php'?>"><i class="la la-home"></i><span class="menu-title"
                             data-i18n="Dashboard">Dashboard</span></a>
                 </li>
-                <li class="nav-item <?=(curlink == 'user.php' || curlink == 'profile.php')?'active':''?>"><a
-                        href="<?=roothtml.'user/user.php'?>">
-                        <i class="ft-users"></i><span class="menu-title" data-i18n="Shop">အကောင့်အသုံးပြုရန်</span></a>
+                <li class=" nav-item">
+                    <a href="#"><i class="la la-dollar"></i><span class="menu-title"
+                            data-i18n="Components">အလှူငွေဖြတ်ပိုင်း</span></a>
+                    <ul class="menu-content">
+                        <li class="<?=(curlink == 'category.php')?'active':''?>">
+                            <a class="menu-item " href="<?=roothtml.'category/category.php'?>">
+                                <i></i><span data-i18n="Alerts">Manage Category</span>
+                            </a>
+                        </li>
+                        <li class="<?=(curlink == 'storehome.php' || curlink == 'store.php')?'active':''?>">
+                            <a class="menu-item " href="<?=roothtml.'category/storehome.php'?>">
+                                <i></i><span data-i18n="Alerts">ဦးခန္တီဘုရားရှိစာရင်းများ</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item <?=(curlink == 'agent.php')?'active':''?>"><a
-                        href="<?=roothtml.'agent/agent.php'?>">
-                        <i class="la la-user-secret"></i><span class="menu-title" data-i18n="Shop">Manage
-                            Agent</span></a>
-                </li>
-                <li class="nav-item <?=(curlink == 'player.php')?'active':''?>"><a
-                        href="<?=roothtml.'player/player.php'?>">
-                        <i class="ft-user-plus"></i><span class="menu-title" data-i18n="Shop">Manage Player</span></a>
-                </li>
-                <li class="navigation-header">
-                    <span data-i18n="User Interface">ဦးခန္တီဘုရားရှိစာရင်းများ</span><i class="la la-ellipsis-h" data-toggle="tooltip"
-                        data-placement="right" data-original-title="User Interface"></i>
-                </li>
-                <li class="<?=(curlink == 'log.php')?'active':''?>">
-                    <a href="<?=roothtml.'log/log.php'?>"><i class="la la-binoculars">
-                        </i><span class="menu-title"
-                            data-i18n="Dashboard">Log History</span></a>
+                <li class="nav-item <?=(curlink == 'item.php')?'active':''?>"><a href="<?=roothtml.'item/item.php'?>">
+                        <i class="ft-plus-circle"></i><span class="menu-title"
+                            data-i18n="Shop">အလှူပစ္စည်းစာရင်းများ</span></a>
                 </li>
                 <li class=" nav-item">
                     <a href="#"><i class="la la-dollar"></i><span class="menu-title"
@@ -182,6 +180,14 @@ if(isset($_SESSION['donationms_userid'])){
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item <?=(curlink == 'user.php' || curlink == 'profile.php')?'active':''?>"><a
+                        href="<?=roothtml.'user/user.php'?>">
+                        <i class="ft-users"></i><span class="menu-title" data-i18n="Shop">အကောင့်အသုံးပြုရန်</span></a>
+                </li>
+                <li class="<?=(curlink == 'log.php')?'active':''?>">
+                    <a href="<?=roothtml.'log/log.php'?>"><i class="la la-binoculars">
+                        </i><span class="menu-title" data-i18n="Dashboard">Log History</span></a>
                 </li>
             </ul>
         </div>

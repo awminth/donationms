@@ -26,6 +26,7 @@ define('curlink',basename($_SERVER['SCRIPT_NAME']));
 
 mysqli_set_charset($con,"utf8");
 
+$cnt_format = array("ချောင်း","ခု","ခွေ");
 $color="secondary";
 $pay_type = array('KBZ Pay','Wave Pay');
 $statussalary=array('Bonus','Cut');
