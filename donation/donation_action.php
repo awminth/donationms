@@ -138,15 +138,24 @@ if($action == 'donate'){
     $donationamount = $_POST["donationamount"];
     $donationdate = $_POST["donationdate"];
     $vno = date("YmdHis");
-    $sql = "insert into sale (ItemID,ItemName,Price,VNO,Date,UserID) select ItemID,ItemName,Price,
-    ?,?,UserID where UserID=?";
-    $stmt = $con->prepare($sql);
-    $stmt -> bind_param('ssi',$vno,$donationdate,$userid);
-    if($stmt->execute()){
-        save_log($_SESSION["donationms_username"]." သည် Category Name (".$categoryname.") အား အသစ်သွင်းသွားသည်။");
-        echo 1;
-    }else{
-         error_log("Save error in category action, ".$stmt->error."\n", 3, root."category/my_log_file.log");
+    $sql = "insert into tblsale (ItemID,ItemName,Price,VNO,Date,UserID) select ItemID,ItemName,Price,
+    '".$vno."','".$donationdate."',UserID from tblsaletemp where UserID=".$userid."";
+    if(mysqli_query($con,$sql)){
+        $totalprice = GetInt("SELECT Sum(Price) FROM tblsale WHERE VNO=? FOR UPDATE",[$vno]);
+        $amount = $totalprice + $donationamount;
+        $sql_voucher = "INSERT INTO tblvoucher (VNO,TotalPrice,UserID,Date,Donater,Description,Address,
+        Price,Amount) VALUES ('".$vno."','".$totalprice."','".$userid."','".$donationdate."',
+        '".$donatorname."','".$description."','".$address."','".$donationamount."','".$amount."')";
+        if(mysqli_query($con,$sql_voucher)){
+            $sql_del = "DELETE FROM tblsaletemp WHERE UserID=".$userid."";
+            if(mysqli_query($con,$sql_del)){
+                save_log($_SESSION["donationms_username"]." သည် ဖြတ်ပိုင်းစာရင်းအသစ်၊ အလှူရှင်အမည်(".$donatorname.") ဖြင့် အသစ်သွင်းသွားသည်။");
+                echo 1;
+            }
+        }
+    }
+    else{
+        error_log("Save error in donation action, ".$stmt->error."\n", 3, root."donation/my_log_file.log");
         echo 0;
     }
 }

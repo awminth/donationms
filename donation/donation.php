@@ -100,8 +100,7 @@
                                             <label class="col-md-3 label-control">အလှူငွေ</label>
                                             <div class="col-md-9 mx-auto">
                                                 <input type="number" class="form-control border-primary"
-                                                    placeholder="အလှူငွေ" name="donationamount">
-
+                                                    placeholder="အလှူငွေ" name="donationamount" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -306,8 +305,13 @@ $(document).ready(function() {
                         timer: 3000,
                         toast: true
                     });
-                    load_page();
-                } else {
+                    load_table();
+                    $("[name='donatorname']").val("");
+                    $("[name='description']").val("");
+                    $("[name='address']").val("");
+                    $("[name='donationamount']").val("0");
+                } 
+                else {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'error',
@@ -317,6 +321,14 @@ $(document).ready(function() {
                         toast: true
                     });
                 }
+                // Swal.fire({
+                //         position: 'top-end',
+                //         icon: 'success',
+                //         title: data,
+                //         showConfirmButton: false,
+                //         timer: 3000,
+                //         toast: true
+                //     });
             }
         });
     });
@@ -469,4 +481,4 @@ $(document).ready(function() {
     });
 
 });
-</script>/script>
+</script>
