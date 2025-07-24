@@ -141,7 +141,7 @@ if($action == 'donate'){
     $sql = "insert into tblsale (ItemID,ItemName,Price,VNO,Date,UserID) select ItemID,ItemName,Price,
     '".$vno."','".$donationdate."',UserID from tblsaletemp where UserID=".$userid."";
     if(mysqli_query($con,$sql)){
-        $totalprice = GetInt("SELECT Sum(Price) FROM tblsale WHERE VNO=? FOR UPDATE",[$vno]);
+        $totalprice = GetInt("SELECT Sum(Price) FROM tblsale WHERE VNO=? FOR UPDATE",[$vno]) ?? 0;
         $amount = $totalprice + $donationamount;
         $sql_voucher = "INSERT INTO tblvoucher (VNO,TotalPrice,UserID,Date,Donater,Description,Address,
         Price,Amount) VALUES ('".$vno."','".$totalprice."','".$userid."','".$donationdate."',

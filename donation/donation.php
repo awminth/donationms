@@ -1,6 +1,12 @@
 <?php
     include('../config.php');
     include(root.'master/header.php');
+
+    $donate_aid = isset($_SESSION["donate_aid"]) ? $_SESSION["donate_aid"] : null;
+    $donate_donater = isset($_SESSION["donate_donater"]) ? $_SESSION["donate_donater"] : null;
+    $donate_description = isset($_SESSION["donate_description"]) ? $_SESSION["donate_description"] : null;
+    $donate_address = isset($_SESSION["donate_address"]) ? $_SESSION["donate_address"] : null;
+    $donate_price = isset($_SESSION["donate_price"]) ? $_SESSION["donate_price"] : 0;
 ?>
 
 <!-- BEGIN: Content-->
@@ -71,7 +77,7 @@
                                             <label class="col-md-3 label-control" for="userinput1">အလှူရှင်အမည်</label>
                                             <div class="col-md-9 mx-auto">
                                                 <input type="text" class="form-control border-primary"
-                                                    placeholder="အလှူရှင်အမည်" name="donatorname">
+                                                    placeholder="အလှူရှင်အမည်" name="donatorname" value="<?= $donate_donater?>">
                                             </div>
                                         </div>
                                     </div>
@@ -82,7 +88,7 @@
                                             <div class="col-md-9 mx-auto">
                                                 <textarea id="projectinput9" rows="5"
                                                     class="form-control border-primary" name="description"
-                                                    placeholder="အကြောင်းအရာ"></textarea>
+                                                    placeholder="အကြောင်းအရာ"><?= $donate_description ?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +97,7 @@
                                             <label class="col-md-3 label-control" for="userinput1">နေရပ်လိပ်စာ</label>
                                             <div class="col-md-9 mx-auto">
                                                 <input type="text" class="form-control border-primary"
-                                                    placeholder="နေရပ်လိပ်စာ" name="address">
+                                                    placeholder="နေရပ်လိပ်စာ" name="address" value="<?= $donate_address?>">
                                             </div>
                                         </div>
                                     </div>
@@ -100,7 +106,7 @@
                                             <label class="col-md-3 label-control">အလှူငွေ</label>
                                             <div class="col-md-9 mx-auto">
                                                 <input type="number" class="form-control border-primary"
-                                                    placeholder="အလှူငွေ" name="donationamount" value="0">
+                                                    placeholder="အလှူငွေ" name="donationamount" value="<?= $donate_price?>">
                                             </div>
                                         </div>
                                     </div>

@@ -154,8 +154,8 @@ if(isset($_SESSION['donationms_userid'])){
                                 <i></i><span data-i18n="Alerts">အလှူငွေဖြတ်ပိုင်းဖြတ်ရန်</span>
                             </a>
                         </li>
-                        <li class="<?=(curlink == 'storehome.php' || curlink == 'store.php')?'active':''?>">
-                            <a class="menu-item " href="<?=roothtml.'category/storehome.php'?>">
+                        <li class="<?=(curlink == 'donationview.php')?'active':''?>">
+                            <a class="menu-item " href="<?=roothtml.'donation/donationview.php'?>">
                                 <i></i><span data-i18n="Alerts">ဖြတ်ပိုင်းများကြည့်ရန်</span>
                             </a>
                         </li>
